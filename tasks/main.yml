@@ -4,6 +4,7 @@
   with_items:
     - base-devel
     - libressl-devel
+    - python-devel
     - python-pip
 
 - name: Install certbot
