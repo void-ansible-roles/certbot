@@ -1,17 +1,21 @@
 ---
 - name: Install build dependencies
-  xbps: pkg={{ item }} state=present
-  with_items:
-    - base-devel
-    - libressl-devel
-    - python-devel
-    - python-pip
+  xbps:
+    pkg:
+      - base-devel
+      - libressl-devel
+      - python-devel
+      - python-pip
+    state: present
 
 - name: Install certbot
-  pip: name=certbot state=present
+  pip:
+    name: certbot
+    state: present
 
 - name: Check for certificate
-  stat: path=/etc/letsencrypt/live/{{ certbot_domain }}/fullchain.pem
+  stat:
+    path: "/etc/letsencrypt/live/{{ certbot_domain }}/fullchain.pem"
   register: certificate
 
 - name: Run certbot
@@ -19,4 +23,9 @@
   when: not certificate.stat.exists
 
 - name: Install certbot cron job
-  copy: src=certbot.cron dest=/etc/cron.d/certbot owner=root group=root mode=0644
+  copy:
+    src: certbot.cron
+    dest: /etc/cron.d/certbot
+    owner: root
+    group: root
+    mode: 0644
